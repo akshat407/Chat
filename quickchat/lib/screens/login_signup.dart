@@ -1,5 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quickchat/Auth/auth_services.dart';
+import 'package:quickchat/screens/home.dart';
+import 'package:quickchat/screens/signup.dart';
 import 'package:quickchat/utils/colors.dart';
+import 'package:quickchat/utils/utils.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
    LoginPage({super.key});
@@ -9,8 +16,42 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-   final username=TextEditingController();
-  final password=TextEditingController();
+   
+
+ FirebaseAuth auth=FirebaseAuth  .instance;
+
+  // final emailcontroller = TextEditingController();
+  // final passwordcontroller = TextEditingController();
+  final emailcontroller=TextEditingController();
+  final passwordcontroller=TextEditingController();
+
+   Future<void> login() async {
+    try {
+      final String email = emailcontroller.text.trim();
+      final String password = passwordcontroller.text.trim();
+
+       await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Navigate to the next screen after successful login
+      User? user = auth.currentUser;
+      if (user != null) {
+        // Navigate to the HomeScreen using Get.to()
+        Get.offAll(() => HomePage());
+    }
+    else {
+        utils().toastmessege("User not found");
+      }
+    } 
+    catch (e) {
+      utils().toastmessege(e.toString());;
+      // Handle error
+    }
+  }
+  
+
   @override
   Widget build(BuildContext context) {
    
@@ -50,9 +91,9 @@ class _LoginPageState extends State<LoginPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
-          controller: username,
+          controller: emailcontroller,
           decoration: InputDecoration(
-              hintText: "Username",
+              hintText: "email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
                   borderSide: BorderSide.none
@@ -63,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 10),
         TextField(
-          controller: password,
+          controller: passwordcontroller,
           decoration: InputDecoration(
             hintText: "Password",
             border: OutlineInputBorder(
@@ -78,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
+            login();
           },
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
@@ -94,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _forgotPassword(context) {
-    return TextButton(
+    return TextButton( 
       onPressed: () {},
       child: const Text("Forgot password?",
         style: TextStyle(color: Colors.black,fontSize: 15),
@@ -109,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
         const Text("Dont have an account? ", style: TextStyle(color: Colors.black,fontSize: 15)),
         TextButton(
             onPressed: () {
+              Get.to(SignupPage());
             },
             child: const Text("Sign Up", style: TextStyle(color: Colors.black,fontSize: 15),)
         )
