@@ -81,17 +81,17 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: madimi 
+    - family: MadimiOne
       fonts:
-        - asset: assets/fonts/MadimiOne-Regular.ttf
+        - asset: assets/fonts/MadimiOne-regular.ttf
         # - asset: fonts/Schyler-Italic.ttf
-          # style: italic
-    - family: slackside
+        # style: italic
+    - family: SlacksideOne
       fonts:
-        - asset: assets\fonts\SlacksideOne-Regular.ttf
+        - asset: assets/fonts/SlacksideOne-regular.ttf
         # - asset: fonts/TrajanPro_Bold.ttf
           # weight: 700
-          style: italic
+          # style: italic
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

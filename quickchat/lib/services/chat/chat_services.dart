@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:quickchat/models/message.dart';
 
 class chatservice
 {
@@ -33,9 +34,26 @@ final FirebaseAuth _auth=FirebaseAuth.instance;
 
     //create a new message
 
+    Message newMessage=Message(
+      senderID: currentUserID, 
+      senderEmail: currentUSerEmail, 
+      receiverID: receiverID, 
+      message: message, 
+      timestamp: timestamp);
+
     //construct a chat room 
 
+    List<String>id=[currentUserID,receiverID];
+
+    id.sort();
+
+    String chatRoomID=id.join('_');
+
+
+
     //add the message to the database
+
+    await _firestore.collection("chat_rooms").doc(chatRoomID).collection("messages").add(newMessage.toMap());
 
 
   }
@@ -43,4 +61,23 @@ final FirebaseAuth _auth=FirebaseAuth.instance;
   //receive messege
 
 
-}
+  Stream<QuerySnapshot> getMessages(String userID,otheruserID) {
+
+    List<String>ids=[userID,otheruserID];
+
+    ids.sort();
+
+    String chatRoomID=ids.join('_');
+
+
+
+    //add the message to the database
+
+    return _firestore.collection("chat_rooms").doc(chatRoomID).collection("messages").orderBy("timestamp",descending: false).snapshots();
+
+
+  } 
+
+  }
+
+

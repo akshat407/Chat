@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickchat/utils/colors.dart';
 
 class UserTile extends StatelessWidget {
 
@@ -12,14 +13,16 @@ class UserTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.amber,
+          color: chatuser,
           borderRadius: BorderRadius.circular(12),
 
         ),
-        margin: EdgeInsets.symmetric(vertical: 5,horizontal: 25
+        
+        margin: EdgeInsets.symmetric(vertical: 10,horizontal: 25
         ),
         padding: EdgeInsets.all(20),
         child: Row(
+          
           children: [
             //icon
 

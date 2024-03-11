@@ -9,6 +9,7 @@ import 'package:quickchat/services/Auth/auth_services.dart';
 import 'package:quickchat/components/my_drawer.dart';
 import 'package:quickchat/screens/login_signup.dart';
 import 'package:quickchat/services/chat/chat_services.dart';
+import 'package:quickchat/utils/colors.dart';
 import 'package:quickchat/utils/utils.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,7 +40,7 @@ void signout(){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade400,
+        backgroundColor: chatother.withOpacity(0.4),
         
         elevation: 5,
         centerTitle: true,
@@ -86,7 +87,7 @@ void signout(){
       return UserTile(
       text: userData['email'],
       onTap: (){
-        Get.to(() => chatpage(receiveremail: userData['email'],));
+        Get.to(() => chatpage(receiveremail: userData['email'],receiverID: userData['uid'],));
       }
       );
     }
