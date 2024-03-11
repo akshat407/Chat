@@ -1,16 +1,19 @@
  
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:quickchat/firebase_options.dart';
 import 'package:quickchat/screens/splashscreen.dart';
 // import 'package:quickchat/strings.dart';
 import 'package:quickchat/utils/strings.dart';
 
-main() {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
-  );
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
+  
   runApp(const App());
 }
 
