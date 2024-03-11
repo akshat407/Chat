@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quickchat/screens/login_signup.dart';
+import 'package:quickchat/services/Auth/auth_gate.dart';
 import 'package:quickchat/utils/images.dart';
 // import 'package:libraria/login_signup/login/signup_screen.dart';
 // import 'package:libraria/login_signup/login/welcome.dart';
@@ -22,7 +23,7 @@ void initState()
 
 _navigatehome()async{
   await Future.delayed(Duration(milliseconds: 5000),(){});
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) =>  LoginPage())));
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) =>  AuthGate())));
 }
 
   @override

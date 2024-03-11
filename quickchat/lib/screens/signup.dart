@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quickchat/Auth/auth_services.dart';
+import 'package:quickchat/services/Auth/auth_services.dart';
 import 'package:quickchat/screens/login_signup.dart';
 import 'package:quickchat/utils/colors.dart';
 
@@ -25,7 +25,7 @@ class _SignupPageState extends State<SignupPage> {
     if(password.text==cnfmpassword.text)
     {
       try {
-         auth.signUpWithEmailAndPassword(email.text, password.text);
+         auth.signUpWithEmailPassword(email.text, password.text);
         
       } catch (e) {
          showDialog(context: context, builder: (context)=>AlertDialog(

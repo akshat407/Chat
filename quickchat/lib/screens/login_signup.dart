@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quickchat/Auth/auth_services.dart';
+import 'package:quickchat/services/Auth/auth_services.dart';
 import 'package:quickchat/screens/home.dart';
 import 'package:quickchat/screens/signup.dart';
 import 'package:quickchat/utils/colors.dart';
@@ -19,36 +20,64 @@ class _LoginPageState extends State<LoginPage> {
    
 
  FirebaseAuth auth=FirebaseAuth  .instance;
+ FirebaseFirestore _firestore=FirebaseFirestore.instance;
 
   // final emailcontroller = TextEditingController();
   // final passwordcontroller = TextEditingController();
   final emailcontroller=TextEditingController();
   final passwordcontroller=TextEditingController();
 
-   Future<void> login() async {
+  //  Future<UserCredential> signInWithEmailAndPassword() async {
+  //   try {
+  //     final String email = emailcontroller.text.trim();
+  //     final String password = passwordcontroller.text.trim();
+
+  //      UserCredential userCredential= await auth.signInWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //     _firestore.collection("Users").doc(userCredential.user!.uid).set({
+
+  //         'uid':userCredential.user!.uid,
+  //         'email':email
+
+  //       });
+
+  //       return userCredential;
+
+  //     // Navigate to the next screen after successful login
+  //     User? user = auth.currentUser;
+  //     if (user != null) {
+  //       // Navigate to the HomeScreen using Get.to()
+  //       Get.offAll(() => HomePage());
+  //   }
+  //   else {
+  //       utils().toastmessege("User not found");
+  //     }
+  //   } 
+  //   catch (e) {
+  //     utils().toastmessege(e.toString());;
+  //     // Handle error
+  //   }
+  // }
+
+  void login(BuildContext context)async{
+
+    final authServices= AuthServices();
+
+
     try {
-      final String email = emailcontroller.text.trim();
-      final String password = passwordcontroller.text.trim();
+      await authServices.signInWithEmailPassword(emailcontroller.text, passwordcontroller.text);
+    } catch (e) {
 
-       await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      showDialog(context: context, builder: (context)=>AlertDialog(
 
-      // Navigate to the next screen after successful login
-      User? user = auth.currentUser;
-      if (user != null) {
-        // Navigate to the HomeScreen using Get.to()
-        Get.offAll(() => HomePage());
+        title: Text(e.toString()),
+
+      ),);
+      
     }
-    else {
-        utils().toastmessege("User not found");
-      }
-    } 
-    catch (e) {
-      utils().toastmessege(e.toString());;
-      // Handle error
-    }
+
   }
   
 
@@ -119,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            login();
+            login(context);
           },
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
